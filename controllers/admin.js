@@ -30,6 +30,11 @@ module.exports.phoneLogin = (req, res) => {
         title: 'Phone Login '
     })
 }
+module.exports.phoneRegister = (req, res) => {
+    return res.render('phone-register', {
+        title: 'Phone Login '
+    })
+}
 module.exports.addAsset = (req, res) => {
     return res.render('add-asset', {
         title: 'Add Asset '

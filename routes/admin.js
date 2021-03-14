@@ -10,6 +10,7 @@ router.get('/activities', adminController.Activities);
 router.get('/expenses', adminController.Expenses);
 router.get('/enteries', adminController.Enteries);
 router.get('/phone_login', adminController.phoneLogin);
+router.get('/phone-register', adminController.phoneRegister)
 router.get('/add-appointment', adminController.addAppointment);
 router.get('/add-asset', adminController.addAsset);
 router.get('/add-blog', adminController.addBlog);

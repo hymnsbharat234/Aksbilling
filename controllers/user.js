@@ -1,5 +1,7 @@
-const { resolveInclude } = require("ejs")
 const Admin = require('../models/admin');
+
+const config = require('../config/twilio');
+const client = require('twilio')(config.accountSID, config.authToken);
 
 module.exports.addProject = async(req, res) => {
 
@@ -49,4 +51,34 @@ module.exports.addEnteries = async(req, res) => {
 
     })
     return res.redirect('back')
+}
+
+module.exports.sendOtp = async(req, res) => {
+    if (req.body.phone.length > 10) {
+        req.flash('error', 'Please do not use (+91 or 0) before your phone number.');
+        return res.redirect('back');
+    }
+
+    let user = await Admin.findOne({ phone: req.body.phone });
+
+    if (user) {
+        req.flash('error', 'Account already linked with this mobile number');
+        return res.redirect('back');
+    } else {
+
+        client
+            .verify
+            .services(config.serviceID)
+            .verifications
+            .create({
+                to: `+91${req.body.phone}`,
+                channel: 'sms'
+            }).then((data) => {
+                return res.render('verify_otp', {
+                    title: 'Phone verification',
+                    phone: req.body.phone
+                });
+            });
+
+    }
 }
